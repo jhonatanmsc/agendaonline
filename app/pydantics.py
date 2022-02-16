@@ -25,6 +25,11 @@ class User(BaseModel):
     cellphone: str
 
 
+class UserRes(User):
+    id: str
+    created_at: date
+
+
 class UserInDB(User):
     password: str
 
@@ -35,7 +40,21 @@ class Contact(BaseModel):
     cellphone: str
 
 
+class ContactRes(Contact):
+    id: str
+    created_at: dict
+
+
 class Registry(BaseModel):
-    created_at = date
-    contacts = list[Contact]
-    category = str
+    contacts: list
+    category: str
+
+
+class RegistryRes(Registry):
+    id: str
+    created_at: dict
+
+
+class Pagination(BaseModel):
+    data: list
+    pagination: dict
