@@ -25,6 +25,12 @@ async def new_user(user: UserInDB):
             detail="Já existe um usuário com esse email",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    if user.password != user.confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="As senhas não são iguais",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     db_user = Users(**user.dict()).save()
     return db_user.as_dict()
 
