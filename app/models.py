@@ -6,11 +6,12 @@ from mongoengine import Document, StringField, DateField, ListField, EmbeddedDoc
 
 from app.enums import CATEGORIES
 from app.settings import pwd_context
+from app.utils.date_parse import datetime_to_str
 
 
 class Users(Document):
     name = StringField(max_length=150)
-    email = StringField(required=True)
+    email = StringField(unique=True, required=True)
     hashed_password = StringField(required=True)
     cellphone = StringField(max_length=50)
     category = StringField(choices=CATEGORIES)
@@ -23,12 +24,17 @@ class Users(Document):
             values.pop('password')
         super().__init__(*args, **values)
 
+    def set_password(self, pwd):
+        self.hashed_password = pwd_context.hash(pwd)
+        self.save()
+
     def verify_password(self, pwd):
         return pwd_context.verify(pwd, self.hashed_password)
 
     def as_dict(self):
         registro = json.loads(self.to_json())
         registro["id"] = str(registro.pop("_id")["$oid"])
+        registro["created_at"] = datetime_to_str(registro["created_at"]["$date"])
         return registro
 
 
@@ -41,6 +47,7 @@ class Contacts(Document):
     def as_dict(self):
         registro = json.loads(self.to_json())
         registro["id"] = str(registro.pop("_id")["$oid"])
+        registro["created_at"] = datetime_to_str(registro["created_at"]["$date"])
         return registro
 
 
@@ -61,4 +68,5 @@ class Registries(Document):
     def as_dict(self):
         registro = json.loads(self.to_json())
         registro["id"] = str(registro.pop("_id")["$oid"])
+        registro["created_at"] = datetime_to_str(registro["created_at"]["$date"])
         return registro

@@ -1,4 +1,3 @@
-from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -9,13 +8,12 @@ class AuthLogin(BaseModel):
     password: str
 
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
 class TokenData(BaseModel):
     user_uid: Optional[str] = None
+
+
+class RefreshTokenData(BaseModel):
+    email: str
 
 
 class User(BaseModel):
@@ -27,12 +25,19 @@ class User(BaseModel):
 
 class UserRes(User):
     id: str
-    created_at: date
+    created_at: str
+
+
+class Token(BaseModel):
+    user_data: UserRes
+    token_type: str
+    access_token: str
+    refresh_token: str
 
 
 class UserInDB(User):
     password: str
-    confirm_password: str
+    password_confirmation: str
 
 
 class Contact(BaseModel):
@@ -59,3 +64,9 @@ class RegistryRes(Registry):
 class Pagination(BaseModel):
     data: list
     pagination: dict
+
+
+class ChangePasswordData(BaseModel):
+    current_password: str
+    password: str
+    password_confirmation: str
