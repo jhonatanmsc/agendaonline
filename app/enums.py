@@ -1,5 +1,5 @@
 CATEGORIES = (
     ('CRIANÇAS', 'CRIANÇAS'),
-    ('MÉDIOS', 'MÉDIOS'),
-    ('JOVENS', 'JOVENS'),
+    ('MÉDIOS(AS)', 'MÉDIOS(AS)'),
+    ('MOÇOS(AS)', 'MOÇOS(AS)'),
 )

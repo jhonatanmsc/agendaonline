@@ -4,6 +4,7 @@ from decouple import config as env
 from passlib.context import CryptContext
 
 DATABASE_URI = env("DATABASE_URI")
+
 connect(host=DATABASE_URI)
 
 SECRET_KEY = env('SECRET_KEY')
